@@ -32,7 +32,7 @@ for (( i=0; i < userCount; i++ )); do
     echo "Destination directory: ${sources[i]} created succesfully" >> $log
   fi
 
-mount -t cifs -o username=P2CFS1801,password=Ninguna1a //"${sources[i]}"/"${users[i]}"VM /mnt/"${users[i]}"/
+mount -t cifs -o username=P2CTYPEUSERNAME,password=TYPEPASS //"${sources[i]}"/"${users[i]}"VM /mnt/"${users[i]}"/
 
 if [ "$?" -eq 0 ]; then
   echo "Source directory: ${sources[i]} mounted succesfully" >> $log
