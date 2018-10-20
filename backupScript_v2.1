@@ -57,8 +57,8 @@ echo -e "\n"
 
 
 # rsync -avh --progress /mnt/ajfernandez /home/ajfernandez/backupVM @@@ --delete, so dangerous!
-# mount -t cifs -o username=P2CFS1801 //192.168.2.1/ajfernandezVM /mnt/ajfernandez/
-# smbclient --list 192.168.2.1 --user=P2CFS1801
+# mount -t cifs -o username=TYPEUSERNAME //192.168.2.1/ajfernandezVM /mnt/ajfernandez/
+# smbclient --list 192.168.2.1 --user=TYPEUSERNAME
 # df -h show mounted filesystem free space
 # $? reuturn exit code of previous command: if [ "$?" -eq "0" ] then echo "done" else echo "error"
 # ${arr[*]}         All of the items in the array
