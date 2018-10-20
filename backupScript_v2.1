@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# @author: ajfernandez
+# @last_edit: 12/10/18
+# @backupScript for classroom virtual machines
+
+time=`date "+%d/%m/%Y %H:%M:%S"` # Get same time at every log entry,
+# move `date..` into each log lines bellow
+
+# usernames here
+users=(
+  "ajfernandez"
+)
+userCount=${#users[@]}
+# end usernames
+
+# sources
+sources=(
+  "192.168.2.1"
+)
+# end sources
+
+log="/home/root/backupLog" # move to /var/log/*, is it
+# possible integration with Syslog?
+
+for (( i=0; i < userCount; i++ )); do
+  if [[ ! -d  /mnt/${users[i]} ]]; then
+    mkdir /mnt/${users[i]}
+    echo "Destination mount: /mnt/${users[i]} created succesfully" >> $log
+  elif [[ ! -d  /home/${users[i]}/backupVM ]]; then
+    mkdir /home/${users[i]}/backupVM
+    echo "Destination directory: ${sources[i]} created succesfully" >> $log
+  fi
+
+mount -t cifs -o username=P2CFS1801,password=Ninguna1a //"${sources[i]}"/"${users[i]}"VM /mnt/"${users[i]}"/
+
+if [ "$?" -eq 0 ]; then
+  echo "Source directory: ${sources[i]} mounted succesfully" >> $log
+else
+  echo "Source directory: //${sources[i]}/${users[i]} failed to mount" >> $log
+fi
+
+echo "Initializing rsyn for: ${users[i]} on $time" >> $log
+rsync -avh --progress /mnt/"${users[i]}" /home/"${users[i]}"/backupVM
+
+if [ "$?" -eq 0 ]; then
+  echo "Backup for: ${users[i]} SUCCESFULLY finished at $time in /home/${users[i]}/backupVM" >> $log
+else
+  echo "Backup for: ${users[i]} Rsync ERROR at $time for ${users[i]}'s backup" >> $log
+fi
+
+done
+
+echo "LOG FINISHED---------------------------------------------------" >> $log
+echo -e "\n"
+
+
+
+# rsync -avh --progress /mnt/ajfernandez /home/ajfernandez/backupVM @@@ --delete, so dangerous!
+# mount -t cifs -o username=P2CFS1801 //192.168.2.1/ajfernandezVM /mnt/ajfernandez/
+# smbclient --list 192.168.2.1 --user=P2CFS1801
+# df -h show mounted filesystem free space
+# $? reuturn exit code of previous command: if [ "$?" -eq "0" ] then echo "done" else echo "error"
+# ${arr[*]}         All of the items in the array
+# ${!arr[*]}        All of the indexes in the array
+# ${#arr[*]}        Number of items in the array
+# ${#arr[0]}        Length of item zero
+# @ -> Do the same that '*' but when we acces to this spare each item as separated word
