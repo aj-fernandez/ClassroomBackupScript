@@ -4,7 +4,7 @@
 # @last_edit: 12/10/18
 # @backupScript for classroom virtual machines
 
-time=`date "+%d/%m/%Y %H:%M:%S"` # Get same time at every log entry,
+time=`date "+%d/%m/%Y %H:%M:%S"` # TODO: Get same time at every log entry,
 # move `date..` into each log lines bellow
 
 # usernames here
@@ -20,7 +20,7 @@ sources=(
 )
 # end sources
 
-log="/home/root/backupLog" # move to /var/log/*, is it
+log="/home/root/backupLog" # TODO: move to /var/log/*, is it
 # possible integration with Syslog?
 
 for (( i=0; i < userCount; i++ )); do
@@ -50,6 +50,8 @@ else
 fi
 
 done
+
+# TODO: Unmount filesystems !! 
 
 echo "LOG FINISHED---------------------------------------------------" >> $log
 echo -e "\n"
