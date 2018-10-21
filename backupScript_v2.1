@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # @author: ajfernandez
-# @last_edit: 12/10/18
+# @last_edit: 21/10/18
 # @backupScript for classroom virtual machines
 
 time=`date "+%d/%m/%Y %H:%M:%S"` # TODO: Get same time at every log entry,
-# move `date..` into each log lines bellow
+# move `date..` into each log lines bellow [OK]
 
 # usernames here
 users=(
   "ajfernandez"
-)
-userCount=${#users[@]}
+)                         # TODO: usernames, ip's and pass in csv file better?
+userCount=${#users[@]}    # TODO: Implement hash of password using MD5 or SHA-2
 # end usernames
 
 # sources
@@ -20,8 +20,8 @@ sources=(
 )
 # end sources
 
-log="/var/log/backupLog" # TODO: move to /var/log/*, is it
-# possible integration with Syslog?
+log="/var/log/backupLog" # TODO: move to /var/log/backupLog [OK]
+# TODO: is it possible integration with Syslog or journalctl? research about module "imjournal" []
 echo "LOG at `date "+%d/%m/%Y %H:%M:%S"`-----------------------------" >> $log
 
 for (( i=0; i < userCount; i++ )); do
@@ -54,12 +54,13 @@ fi
 done
 
 
-# TODO: Unmount filesystems !!
+# TODO: Unmount filesystems !! [OK] line 49
 
 echo "LOG FINISHED at `date "+%d/%m/%Y %H:%M:%S"`--------------------" >> $log
 printf "\n" >> $log
 
 
+# TODO: GENERSL: Message with copied files in log and message if there aren't files to copy
 
 # rsync -avh --progress /mnt/ajfernandez /home/ajfernandez/backupVM @@@ --delete, so dangerous!
 # mount -t cifs -o username=TYPEUSERNAME //192.168.2.1/ajfernandezVM /mnt/ajfernandez/
