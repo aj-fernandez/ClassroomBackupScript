@@ -20,8 +20,9 @@ sources=(
 )
 # end sources
 
-log="/home/root/backupLog" # TODO: move to /var/log/*, is it
+log="/var/log/backupLog" # TODO: move to /var/log/*, is it
 # possible integration with Syslog?
+echo "LOG at `date "+%d/%m/%Y %H:%M:%S"`-----------------------------" >> $log
 
 for (( i=0; i < userCount; i++ )); do
   if [[ ! -d  /mnt/${users[i]} ]]; then
@@ -40,21 +41,23 @@ else
   echo "Source directory: //${sources[i]}/${users[i]} failed to mount" >> $log
 fi
 
-echo "Initializing rsyn for: ${users[i]} on $time" >> $log
+echo "Initializing rsyn for: ${users[i]} ot `date "+%d/%m/%Y %H:%M:%S"`" >> $log
 rsync -avh --progress /mnt/"${users[i]}" /home/"${users[i]}"/backupVM
 
 if [ "$?" -eq 0 ]; then
-  echo "Backup for: ${users[i]} SUCCESFULLY finished at $time in /home/${users[i]}/backupVM" >> $log
+  echo "Backup for: ${users[i]} SUCCESFULLY finished at `date "+%d/%m/%Y %H:%M:%S"` in /home/${users[i]}/backupVM" >> $log
+  umount /mnt/"${users[i]}"
 else
-  echo "Backup for: ${users[i]} Rsync ERROR at $time for ${users[i]}'s backup" >> $log
+  echo "Backup for: ${users[i]} Rsync ERROR at `date "+%d/%m/%Y %H:%M:%S"` for ${users[i]}'s backup" >> $log
 fi
 
 done
 
-# TODO: Unmount filesystems !! 
 
-echo "LOG FINISHED---------------------------------------------------" >> $log
-echo -e "\n"
+# TODO: Unmount filesystems !!
+
+echo "LOG FINISHED at `date "+%d/%m/%Y %H:%M:%S"`--------------------" >> $log
+printf "\n" >> $log
 
 
 
