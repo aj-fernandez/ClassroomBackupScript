@@ -26,7 +26,7 @@ sources=(
 
 log="/var/log/backupLog"
 # TODO: is it possible integration with Syslog or journalctl? research about module "imjournal" []
-echo "LOG at `date "+%d/%m/%Y %H:%M:%S"`-----------------------------" >> $log
+printf "\n\nLOG at `date "+%d/%m/%Y %H:%M:%S"`-----------------------------\n" >> $log
 
 for (( i=0; i < userCount; i++ )); do
   printf "\nWorking on backup for ${users[i]}" >> $log
